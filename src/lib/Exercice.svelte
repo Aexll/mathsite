@@ -10,7 +10,7 @@
   <div class="flex items-center justify-between mb-2">
     <h2 class="text-xl font-bold">{titre}</h2>
     <div class="flex items-center">
-      {#each Array(5) as _, i}
+      {#each Array(difficulte) as _, i}
         <span class={i < difficulte ? 'text-yellow-400' : 'text-gray-300'}>★</span>
       {/each}
     </div>

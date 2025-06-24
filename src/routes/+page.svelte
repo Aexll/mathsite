@@ -1,5 +1,7 @@
 <script>
-  import ExerciceMarkdown from '$lib/ExerciceMarkdown.svelte';
+  import { afterUpdate } from 'svelte';
+  import { typesetMath } from '../lib/mathjax.js';
+
   // Import dynamique de tous les exercices Svelte du dossier src/exercices
   const modules = import.meta.glob('../exercices/*.svelte');
 
@@ -18,29 +20,16 @@
       };
     })
   ).then(list => {
-    // Ajouter l'exercice Markdown à la fin de la liste
-    exercices = [
-      ...list,
-      {
-        titre: 'Dérivation (Markdown)',
-        composant: ExerciceMarkdown,
-        markdownSrc: '/src/exercices_md/derivation.md'
-      },
-      {
-        titre: 'Théorème du point fixe de Knaster-Tarski (cas particulier)',
-        composant: ExerciceMarkdown,
-        markdownSrc: '/src/exercices_md/exo3.md'
-      }
-    ];
+    exercices = list;
     loading = false;
   });
 
   let SelectedComponent;
-  let selectedMarkdownSrc = '';
-  $: if (exercices.length > 0) {
-    SelectedComponent = exercices[selected].composant;
-    selectedMarkdownSrc = exercices[selected].markdownSrc;
-  }
+  $: if (exercices.length > 0) SelectedComponent = exercices[selected].composant;
+
+  afterUpdate(() => {
+    typesetMath();
+  });
 </script>
 
 <div class="flex min-h-screen bg-gray-50">
@@ -69,11 +58,7 @@
   <main class="flex-1 flex items-center justify-center p-8">
     <div class="max-w-xl w-full">
       {#if !loading && SelectedComponent}
-        {#if SelectedComponent === ExerciceMarkdown}
-          <ExerciceMarkdown src={selectedMarkdownSrc} />
-        {:else}
-          <svelte:component this={SelectedComponent} />
-        {/if}
+        <svelte:component this={SelectedComponent} />
       {/if}
     </div>
   </main>
