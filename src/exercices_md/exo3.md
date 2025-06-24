@@ -1,4 +1,8 @@
-t# Exercice 3 : Théorème du point fixe de Knaster-Tarski (cas particulier)
+---
+titre: Théorème du point fixe de Knaster-Tarski (cas particulier)
+difficulte: 2
+chapitre: Théorèmes
+---
 
 ## Énoncé
 
